@@ -1,0 +1,125 @@
+<mat-sidenav-container class="example-container">
+    <div class="container mt-5">
+        <div class="row mb-3">
+            <div class="col">
+                <button class="btn btn-primary" (click)="toggleFilter()"><i class="fas fa-filter"></i> Filter</button>
+            </div>
+            <div class="col-md-7" *ngIf="showFilter">
+                <input type="text" class="form-control mr-2" placeholder="Search..." #searchInputValue (keyup.enter)="addChip(searchInputValue.value); searchInputValue.value=''">
+                <div class="row mb-3" *ngIf="chips.length > 0">
+                    <div class="col-md-7">
+                        <mat-chip-list>
+                            <mat-chip *ngFor="let chip of chips" [removable]="true">
+                                {{ chip }}
+                                <mat-icon matChipRemove (click) = "removeChip(chip)">cancel</mat-icon>
+                            </mat-chip>
+                        </mat-chip-list>
+                    </div>
+                </div>
+            </div>
+            <div class="col" *ngIf="showFilter">
+                <button class="btn btn-primary btn-block" (click)="applySearch()"><i class="fas fa-search"></i> Search </button>
+            </div>
+            <div class="col" *ngIf="showFilter">
+                <button [disabled] = "!(filteredCards.length >= 1)" class="btn btn-secondary btn-block"  (click)="sidenav.toggle()"> Sort <i class="fas fa-sort"></i></button>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3">
+                <div class="accordion" id="accordionExample">
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="headingOne">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                            Travel Insurance
+                        </button>
+                        </h2>
+                        <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                        <div class="accordion-body">
+                            <strong> What is Travel Insurance? </strong> Travel Insurance is a type of insurance that is custom-made for people going on domestic and international travels. It addresses the various risks that one may face during travels, including hospitalisation, medical expenses, loss of luggage or documents, cancellation or disruption of flights, and various other costs. Travel insurance covers you from the date of departure till your arrival back at the place of origin. For frequent fliers, a travel plan that remains effective for a certain period is more suitable as it covers multiple travels during the policy period.
+                        </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="headingTwo">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                            Travel Insurance
+                        </button>
+                        </h2>
+                        <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
+                        <div class="accordion-body">
+                            <strong> How to Buy Travel Insurance Plan? </strong> you can buy a travel insurance policy online or by visiting the insurer’s office. While applying online, you need to fill in the basic details like dates of travel, traveler details, coverage required, etc. Then you receive the quote, based on which you can select the travel insurance policy that suits your requirement. There are different types of travel plans customized for different travel needs. These include corporate, single, family, senior citizen, or student travel plans. You can purchase a travel plan that suits you the best. You can also buy travel insurance plans from insurance brokers and agents. However, ensure that they are licensed by the Insurance Regulatory and Development Authority of India. It is worth noting that you may be eligible for discounts if you buy a travel insurance plan online directly from the insurer.
+                        </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="headingThree">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                            Travel Insurance
+                        </button>
+                        </h2>
+                        <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
+                        <div class="accordion-body">
+                            <strong> When to Buy Travel Insurance? </strong> If you plan to embark on multiple trips, you should buy a travel plan in advance to cover all the upcoming trips. Even in the case of a single trip, buying a travel plan in advance is advisable. Typically, it could be on the date of booking the tickets or a few days after that. You can also buy travel plans at the last minute. But you may miss out on crucial coverages. For instance, travel insurance offers cancellation coverage. But you will miss out on the same if the cancellation happens before the policy start date. In other words, buy your travel insurance well in advance to avail all benefits.
+                        </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-9">
+                <div class="card-container">
+                    <div class="row">
+                        <ng-container *ngIf="filteredCards.length > 0; else noData">
+                            <div class="col-lg-4 col-md-6 mb-4" *ngFor="let card of filteredCards">
+                                <div class="card h-100">
+                                    <mat-card class="example-card h-100" appearance="outlined">
+                                        <mat-card-header>
+                                            <mat-card-title-group>
+                                                <img [src]="card.imageUrl" class="card-img-top" alt="Card Image">
+                                            </mat-card-title-group>
+                                        </mat-card-header>
+                                        <mat-card-content>
+                                            <div>
+                                                <br><p class="card-title"><b>{{ card.title }}</b></p>
+                                                <p [hidden]="card.imageUrl == '../../assets/defaultPic.jpg'" class="card-text"><b> Cost : {{ '$ ' + card.cost }}</b></p>
+                                            </div>
+                                        </mat-card-content>
+                                    </mat-card>
+                                </div>
+                            </div>
+                        </ng-container>
+                        <ng-template #noData>
+                            <div class="col-md-12">
+                                <div class="card no-data-card text-center">
+                                    <div class="card-body">
+                                        No Data to display based on the search you applied...
+                                    </div>
+                                </div>
+                            </div>
+                        </ng-template>
+                    </div>
+                </div>
+                <div *ngIf="filteredCards.length != 0" class="total-count-box mt-4">
+                   Total : {{ filteredCards.length }}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <mat-sidenav #sidenav mode="over" position="end" class="sidenav-responsive fixed-right">
+        <div class="sort-options-container">
+            <h2 class="sort-options-alignment">Sort Options<button class="btn btn-outline-danger float-right" aria-label="Close" (click)="sidenav.close()"><i class="fas fa-times"></i></button></h2>
+            <div class="button-alignment row">
+                <div class="col">
+                    <button class="btn btn-primary mr-2" (click)="toggleSort('asc')">A-Z</button>
+                    <button class="btn btn-primary" (click)="toggleSort('desc')">Z-A</button>
+                </div>
+                <div class="col">
+                    <button class="btn btn-secondary float-right" (click)="resetSort()">Reset</button>
+                </div>
+            </div>
+        </div>
+        <div class="button-container">
+            <button class="btn btn-primary full-width" (click)="applySort(sidenav)">Apply</button>
+        </div>
+    </mat-sidenav>
+</mat-sidenav-container>
